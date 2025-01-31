@@ -28,7 +28,7 @@ from pygh2md.exceptions.UnknownGitHubRepositoryException import UnknownGitHubRep
 NON_BREAKING_SPACE: str = '&nbsp;'
 
 
-class Gh2md:
+class PyGh2Md:
     def __init__(self, outputFileName: str):
 
         self.logger: Logger = getLogger(__name__)
@@ -67,7 +67,7 @@ class Gh2md:
 @option('-d', '--since-date',  required=True,                              help='The date from which we want to start searching.')
 @option('-o', '--output-file', required=True,                              help='The output markdown file.')
 @option('-a', '--append',      required=False, is_flag=True, default=True, help='Append to output file')
-def commandHandler(slug: str, since_date: str, output_file: str, append: bool = True):
+def pygh2md(slug: str, since_date: str, output_file: str, append: bool = True):
     """
 
     slug            A repository slug in the format <user-name>/repository-name; e.g., `hasii2011/TestRepository`
@@ -80,7 +80,7 @@ def commandHandler(slug: str, since_date: str, output_file: str, append: bool = 
 
     """
     try:
-        gh2md: Gh2md = Gh2md(outputFileName=output_file)
+        gh2md: PyGh2Md = PyGh2Md(outputFileName=output_file)
 
         gh2md.convert(repoSlug=slug, sinceDate=since_date, append=append)
 
@@ -94,6 +94,6 @@ def commandHandler(slug: str, since_date: str, output_file: str, append: bool = 
 
 if __name__ == "__main__":
 
-    # commandHandler(['-s', 'hasii2011/code-ally-advanced', '-d', '2024-02-01', '-o', 'codeallyadvanced.md'])
-    commandHandler(['--help'])
-    # commandHandler(['-s', 'hasii2011/code-ally-advanced', '-d', '204-02-01', '-o', 'codeallyadvanced.md'])
+    # pygh2md(['-s', 'hasii2011/code-ally-advanced', '-d', '2024-02-01', '-o', 'codeallyadvanced.md'])
+    pygh2md(['--help'])
+    # pygh2md(['-s', 'hasii2011/code-ally-advanced', '-d', '204-02-01', '-o', 'codeallyadvanced.md'])

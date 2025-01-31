@@ -54,4 +54,4 @@ version = {attr = 'pygh2md.__version__'}
 
 [project.scripts]
 
-pygh2md = "pygh2md.Gh2md:commandHandler"
+pygh2md = "pygh2md.PyGh2Md:pygh2md"
