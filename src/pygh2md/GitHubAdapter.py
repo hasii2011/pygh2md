@@ -8,6 +8,8 @@ from logging import getLogger
 
 from dataclasses import dataclass
 
+from re import sub as regExSub
+
 from datetime import datetime
 
 from os import environ as osEnvironment
@@ -69,13 +71,16 @@ class GitHubAdapter:
             for content in issues:
                 issue: Issue = cast(Issue, content)
 
-                self.logger.info(f'{issue=}')
+                self.logger.debug(f'{issue=}')
+
+                fixedURL: str = self._fixURL(oldURL=issue.url)
+
                 ghIssue: GHIssue = GHIssue()
                 ghIssue.number   = issue.number
                 ghIssue.title    = issue.title
-                ghIssue.issueUrl = issue.url
+                ghIssue.issueUrl = fixedURL
 
-                self.logger.info(f'{ghIssue=}')
+                self.logger.debug(f'{ghIssue=}')
 
                 ghIssues.append(ghIssue)
         except UnknownObjectException:
@@ -84,3 +89,27 @@ class GitHubAdapter:
             raise InvalidDateFormatException(e)
 
         return ghIssues
+
+    def _fixURL(self, oldURL: str) -> str:
+        """
+        Makes the URLs returned by the GitHub API actually user linkable when I
+        generate the markdown file.
+
+        e.g.
+
+        https://api.github.com/repos/hasii2011/code-ally-advanced
+
+        gets turned into
+
+        https://github.com//hasii2011/code-ally-advanced
+
+        Args:
+            oldURL:  The URL we have to fix
+
+        Returns:  A linkable URL
+        """
+
+        apiStrip:  str = regExSub(pattern=r'api.',   repl='', string=oldURL)
+        repoStrip: str = regExSub(pattern=r'repos/', repl='', string=apiStrip)
+
+        return repoStrip

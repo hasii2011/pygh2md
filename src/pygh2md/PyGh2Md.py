@@ -94,6 +94,6 @@ def pygh2md(slug: str, since_date: str, output_file: str, append: bool = True):
 
 if __name__ == "__main__":
 
-    # pygh2md(['-s', 'hasii2011/code-ally-advanced', '-d', '2024-02-01', '-o', 'codeallyadvanced.md'])
-    pygh2md(['--help'])
+    pygh2md(['-s', 'hasii2011/code-ally-advanced', '-d', '2024-02-01', '-o', 'codeallyadvanced.md'])
+    # pygh2md(['--help'])
     # pygh2md(['-s', 'hasii2011/code-ally-advanced', '-d', '204-02-01', '-o', 'codeallyadvanced.md'])
